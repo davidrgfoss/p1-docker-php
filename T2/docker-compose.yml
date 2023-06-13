@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  bookmedik:
+    container_name: bookmedik
+    image: davidrgfoss/bookmedik:v1
+    restart: always
+    environment:
+      user_bookmedik: admin
+      pass_bookmedik: admin
+      host_database: p2_mariadb
+      db_name: bookmedik
+    ports:
+      - 13450:80
+    depends_on:
+      - p2_mariadb
+  p2_mariadb:
+    container_name: p2_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: admin
+    volumes:
+      - p2_mariadb:/var/lib/mysql
+volumes:
+    p2_mariadb:
