@@ -1,0 +1,8 @@
+FROM nginx
+MAINTAINER davidrgfoss "davidrg@davidrgfoss.com"
+RUN apt-get update && apt-get upgrade -y && apt install mariadb-client wget -y
+COPY bookmedik /usr/share/nginx/html/
+COPY default.conf /etc/nginx/conf.d/
+COPY mkbd.sh /opt/
+RUN chmod +x /opt/mkbd.sh && rm /usr/share/nginx/html/index.html
+CMD ["/opt/mkbd.sh"]

@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  bookmedik:
+    container_name: bookmedik
+    image: davidrgfoss/bookmedik:v3
+    restart: always
+    environment:
+      user_bookmedik: admin
+      pass_bookmedik: admin
+      host_database: p3_mariadb
+      db_name: bookmedik
+    ports:
+      - 17450:80
+    volumes:
+      - p3_php:/usr/share/nginx/html/ 
+    depends_on:
+      - p3_mariadb
+      - p3_php
+  p3_mariadb:
+    container_name: p3_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: admin
+    volumes:
+      - p3_mariadb:/var/lib/mysql
+  p3_php:
+    container_name: p3_php
+    build:
+      context: ./
+      dockerfile: Dockerfile-php
+    restart: always
+    environment:
+      user_bookmedik: admin
+      pass_bookmedik: admin
+      host_database: p3_mariadb
+      db_name: bookmedik
+    volumes:
+      - p3_php:/usr/share/nginx/html/ 
+volumes:
+    p3_mariadb:
+    p3_php:

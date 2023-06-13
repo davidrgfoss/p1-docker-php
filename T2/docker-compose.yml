@@ -2,7 +2,7 @@ version: '3.8'
 services:
   bookmedik:
     container_name: bookmedik
-    image: davidrgfoss/bookmedik:v1
+    image: davidrgfoss/bookmedik:v2
     restart: always
     environment:
       user_bookmedik: admin
